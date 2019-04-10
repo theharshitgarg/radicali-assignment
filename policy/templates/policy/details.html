@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_sheets %}
+	<link rel="stylesheet" type="text/css" href="{% static 'policy/policy.css' %}">
+{% endblock %}
+
+{% block header_js %}
+	<script type = "text/javascript" src = "{% static 'policy/policy.js' %}" > </script>
+{% endblock %}
+
+
+{% block content %}
+	{% if messages %}
+	  {% for msg in messages %}
+	    <div class="alert alert-info alert-dismissable">
+	      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	      {{msg.message}}
+	    </div>
+	  {% endfor %}
+	{% endif %}
+
+	<div class="alert" id="msg-area">
+      <button type="button" class="close" onclick="$('.alert').hide()" aria-hidden="true">&times;</button>
+      <div id="msg-text"></div>
+    </div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<h1>Text Search</h1>
+		</div>
+		<div class="col-md-12">
+			<form id="policy_form" method="post" action="{% url 'policy_update' policy.id %}">
+				{% csrf_token %}
+				<div class="" id="text-search-box">
+					<textarea name="policy_text" id="policy_text"
+						class="text-search-box" placeholder="Policy Text">
+						{{ policy.text }}
+					</textarea>
+				</div>
+
+				<div class="" id="text-search-box">
+					<button type="button" class="btn btn-primary save-search-btn"
+							id="save-text-btn" onclick="saveText()">Save
+					</button>
+				</div>	
+			</form>
+		</div>	
+	</div>
+{% endblock %}
+
+{% block bottom_js %}
+	<script type="text/javascript" charset="utf-8" async defer>
+		function getCookie(name) {
+	        var cookieValue = null;
+	        if (document.cookie && document.cookie !== '') {
+	            var cookies = document.cookie.split(';');
+	            for (var i = 0; i < cookies.length; i++) {
+	                var cookie = jQuery.trim(cookies[i]);
+	                // Does this cookie string begin with the name we want?
+	                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+	                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+	                    break;
+	                }
+	            }
+	        }
+	        return cookieValue;
+	    }
+	    $('#msg-area').hide();
+
+		var token = getCookie('csrftoken');
+		console.log(token);
+		function saveText(event) {
+			var form = $("#policy_form");
+			console.log("Firm");
+			console.log(form);
+			var text = $("#policy_text").val().trim();
+			console.log(text + "Hello");
+			console.log(token + " token");
+			$.ajax({
+		        headers: { "X-CSRFToken": token },
+		        url: "{% url 'policy_update' policy.id %}",
+		        type: "POST",
+		        data: form.serialize(),
+		        dataType: 'json',	
+		        success: function (data) {
+		          if (data.success) {
+		            $('#msg-area').addClass("alert-success");
+		            $('#msg-text').text("Updated successfully");
+		            $(".alert").show();
+		          }
+		          else {
+		          	$('#msg-area').addClass("alert-danger");
+		            $('#msg-text').text("Update unsuccessful");
+		            $(".alert").show();
+		          }
+		        }
+		      });
+
+		}	
+	</script>
+{% endblock %}

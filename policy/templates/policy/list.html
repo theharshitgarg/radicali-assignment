@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+	List View
+{% endblock %}
+
+{% block css_sheets %}
+	<link rel="stylesheet" type="text/css" href="{% static 'policy/policy.css' %}">
+{% endblock %}
+
+{% block header_js %}
+	<script type = "text/javascript" src = "{% static 'policy/policy.js' %}" > </script>
+{% endblock %}
+
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-12">
+			<h1>Policies</h1>
+		</div>
+		<div class="col-md-12">
+			{% for policy in policies %}
+
+				<div class="col-md-12">
+					<div class="panel panel-info" id="{{ policy.id }}">
+					  	<div class="panel-heading">
+					  		<a href="{% url 'policy_details' policy.id %}">{{ policy.heading }}</a>
+					  	</div>
+					  	<div class="panel-body">
+					  		{{ policy.text }}
+						  </div>
+					 </div>	
+				</div>
+			{% endfor %}
+		</div>	
+	</div>
+{% endblock %}
