@@ -1,0 +1,32 @@
+.text-search-box {
+	/*padding: 2 %;*/
+	/*font-weight: 100%;*/
+	background-position: 10px 12px; /* Position the search icon */
+	background-repeat: no-repeat; /* Do not repeat the icon image */
+	width: 100%; /* Full-width */
+	font-size: 16px; /* Increase font-size */
+	padding: 12px 20px 12px 40px; /* Add some padding */
+	border: 1px solid #ddd; /* Add a grey border */
+	margin-bottom: 12px; /* Add some space below the input */
+	overflow: auto;
+	text-align: justify;
+}
+
+.scroll::-webkit-scrollbar {
+   display: none;
+ }
+
+ textarea.Whiteboard{
+    resize: none;
+    background-color: #F1F1F1;
+    border: none;
+    height: 500px;
+    width: 800px;
+    
+    font-size: 50px;
+}
+
+.save-search-btn {
+	text-align: right;
+	position: right;
+}
